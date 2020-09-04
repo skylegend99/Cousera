@@ -1,0 +1,8 @@
+Set up visualizer environment: "https://www.youtube.com/watch?v=vpHaTgFeYP8"  (see the video in the folder)  
+
+Finished most part by myself but struggle on percolate and construct the grid. After I see the website "https://blog.csdn.net/a1051826842/article/details/104062077". finally figured out how to create the virtual bottom and virtual top. 
+By setting two union model, one only contains the top virtual, I could verify isfull() true by observing both union model are connected with top(Because the top_bottom could connect the bottom virtual that made the grid is full falsely.
+
+Other solution:
+https://www.neekoleung.com/articles/coursera-algorithm1-1/#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0
+https://blog.csdn.net/tp7309/article/details/70879407
