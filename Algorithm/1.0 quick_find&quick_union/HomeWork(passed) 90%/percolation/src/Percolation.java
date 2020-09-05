@@ -1,6 +1,6 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
-    private int[] grid;
+    private boolean[] grid;
     private final int dimension;
     private final int virtualtop;
     private int count = 0;
@@ -8,6 +8,7 @@ public class Percolation {
     private final WeightedQuickUnionUF top;
 
     private int xyTo1d(int x, int y) {
+        check(x,y);
         return dimension * x - dimension + y - 1;
     }
 
@@ -23,7 +24,7 @@ public class Percolation {
             throw new IllegalArgumentException();
         topBottom = new WeightedQuickUnionUF(n * n + 2);
         top = new WeightedQuickUnionUF(n * n + 1);
-        grid = new int[n * n];
+        grid = new boolean[n * n];
         dimension = n;
         virtualtop = n * n;
 
@@ -33,8 +34,8 @@ public class Percolation {
     public void open(int row, int col) {
         check(row, col);
         if (!isOpen(row, col)) {
-            grid[xyTo1d(row, col)] = 1;
             int axis = xyTo1d(row, col);
+            grid[axis] = true;
             count++;
             if (row == 1) {
                 topBottom.union(virtualtop, axis);
@@ -78,13 +79,15 @@ public class Percolation {
 
     public boolean isOpen(int row, int col) {
         check(row, col);
-        return grid[xyTo1d(row, col)] == 1;
+        return grid[xyTo1d(row, col)];
     }
 
     // is the site (row, col) full?
 
     public boolean isFull(int row, int col) {
-        if (isOpen(row, col)) return top.find(xyTo1d(row, col)) == virtualtop && topBottom.find(xyTo1d(row, col)) == virtualtop;
+        if (isOpen(row, col)) {
+            return top.connected(xyTo1d(row, col), virtualtop);
+        }
         return false;
     }
 
@@ -97,6 +100,6 @@ public class Percolation {
     // does the system percolate?
 
     public boolean percolates() {
-        return topBottom.find(virtualtop) == topBottom.find(virtualtop+1);
+        return topBottom.connected(virtualtop,virtualtop+1);
     }
 }
