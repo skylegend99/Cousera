@@ -10,18 +10,19 @@
 #     </c>
 # </a>  #ending of the tag
 
-import xml.etree.ElementInclude as ET
+import xml.etree.ElementTree as ET
 
 #First example:
 #String data '''
-data = '''<person>
+data = '''
+<person>
     <name>Chuck</name>
     <phone type = "int1">
         +1 734 303 4456
        </phone>
        <email hide = "yes"/>
-    </person>'''
-tree = ET.fromstring  # Get back a tree information that correctly parsed
+</person>'''
+tree = ET.fromstring(data)  # Get back a tree information that correctly parsed
 print('Name:', tree.find('name').text) # Gives back "Chuck"
 print('Attr:', tree.find('email').get('hide')) # Gives back "yes"
 
@@ -43,9 +44,9 @@ input = '''
 
 stuff = ET.fromstring(input)
 lst = stuff.findall('users/user')
-print 'User count:', len(lst)
+print('User count:', len(lst))
 
 for item in lst:
-    print 'Name', item.find('name').text
-    print 'Id', item.find('id').text
-    print 'Attribute', item.get("x")
+    print('Name', item.find('name').text)
+    print('Id', item.find('id').text)
+    print('Attribute', item.get("x"))
