@@ -1,4 +1,6 @@
 // Using array to create random queue
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import java.util.Iterator;
 
@@ -11,6 +13,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             temp[i] = queue[i];
         }
         queue = temp;
+        temp = null;
     }
     // construct an empty randomized queue
     public RandomizedQueue(int capacity) {
@@ -36,7 +39,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         checkEmpty();
         int randNum = StdRandom.uniform(N);
         Item item = queue[randNum];
-        queue[randNum] = queue[--N];
+        if (randNum != N-1) {
+            queue[randNum] = queue[--N];
+        }
         queue[N] = null;
         if (N>0 && N == queue.length/4) resize(queue.length/2);
         return item;
@@ -69,8 +74,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if (N==0) throw new java.util.NoSuchElementException("iterqueue is empty");
             int randNum = StdRandom.uniform(l);
             Item next = iterQueue[randNum];
-            iterQueue[randNum] = iterQueue[--l];
-            iterQueue[l] = null;
+            if (randNum != l-1) {
+                iterQueue[randNum] = iterQueue[l-1];
+            }
+            iterQueue[--l] = null;
             return next;
         }
         public void remove(){throw new UnsupportedOperationException("Unable to remove");}
@@ -79,18 +86,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void checkEmpty() {if (N==0) throw new java.util.NoSuchElementException("queue is empty");}
     // unit testing (required)
     public static void main(String[] args) {
-        RandomizedQueue<String> rq = new RandomizedQueue<String>(10);
-        rq.enqueue("冉冉");
-        rq.enqueue("跳起来");
-        rq.enqueue("拍了拍");
-        rq.enqueue("茵茵");
-        rq.enqueue("屁股");
-        rq.enqueue("亲了一口");
-        rq.enqueue("傻fufu的");
-        rq.enqueue("然后");
-        Iterator<String> iter1 = rq.iterator();
-        while (iter1.hasNext()) {
-            System.out.print(iter1.next() );
+        RandomizedQueue<String> rq = new RandomizedQueue<String>();
+        while (!StdIn.isEmpty()) {
+            String item = StdIn.readString();
+            if (!item.equals("-")) rq.enqueue(item);
+            else if (!rq.isEmpty()) StdOut.println(rq.dequeue());
         }
     }
 }

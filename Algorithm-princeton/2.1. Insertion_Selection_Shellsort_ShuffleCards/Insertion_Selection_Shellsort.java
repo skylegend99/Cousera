@@ -13,9 +13,9 @@ class sort{
     }
     public static void Selection(int[] a){
         for(int i =0;i<a.length;i++){
-            int min = -1;
+            int min = i;
             for(int j = i;j<a.length;j++){
-                if (a[j]<min){
+                if (a[j]<a[i]){
                     min = j;
                 }
             }
