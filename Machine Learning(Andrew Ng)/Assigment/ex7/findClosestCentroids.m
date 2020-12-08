@@ -20,8 +20,12 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
+minimum = zeros(K,1);
+for i = 1:size(X,1)
+    for j = 1:K
+        minimum(j) = sum((X(i,:)-centroids(j,:)).^2);
+    end
+    idx(i) = find(min(minimum) == minimum);
 
 
 
